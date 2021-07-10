@@ -19,18 +19,17 @@ has_many :orders
 
 ## itemsテーブル
 
-| Column                   | Type      | Options                       |
-| ------------------------ | --------- | ----------------------------- |
-| user                     | reference | null: false, foreign_key: true|
-| image                    | text      | null: false                   |
-| item_name                | text      | null: false                   |
-| item_info                | text      | null: false                   |
-| item_category            | string    | null: false                   |
-| item_sales_status        | string    | null: false                   |
-| item_shipping-fee-status | string    | null: false                   |
-| item_prefecture          | string    | null: false                   |
-| item_scheduled-delivery  | integer   | null: false                   |
-| item_price               | integer   | null: false                   |
+| Column                      | Type       | Options                       |
+| --------------------------- | ---------- | ----------------------------- |
+| user                        | references | null: false, foreign_key: true|
+| item_name                   | string     | null: false                   |
+| item_info                   | text       | null: false                   |
+| item_category               | string     | null: false                   |
+| item_sales_status_id        | integer    | null: false                   |
+| item_shipping-fee-status_id | integer    | null: false                   |
+| item_prefecture_id          | integer    | null: false                   |
+| item_scheduled-delivery_id  | integer    | null: false                   |
+| item_price_id               | integer    | null: false                   |
 
 ### Association
 belongs_to :user
@@ -38,27 +37,27 @@ has_one    :order
 
 ## ordersテーブル
 
-| Column                   | Type      | Options                       |
-| ------------------------ | --------- | ----------------------------- |
-| user                     | reference | null: false, foreign_key: true|
-| item                     | reference | null: false, foreign_key: true|
+| Column                   | Type       | Options                       |
+| ------------------------ | ---------- | ----------------------------- |
+| user                     | references | null: false, foreign_key: true|
+| item                     | references | null: false, foreign_key: true|
 
 ### Association
 belongs_to :user
 belongs_to :item
 has_one    :address
 
-## addressテーブル
+## addressesテーブル
 
-| Column       | Type      | Options                       |
-| ------------ | --------- | ----------------------------- |
-| order        | reference | null: false, foreign_key: true|
-| postal_code  | integer   | null: false                   |
-| prefecture   | string    | null: false                   |
-| city         | string    | null: false                   |
-| addresses    | integer   | null: false                   |
-| building     | string    | null: false                   |
-| phone_number | integer   | null: false                   |
+| Column        | Type       | Options                       |
+| ------------- | ---------- | ----------------------------- |
+| order         | references | null: false, foreign_key: true|
+| prefecture_id | string     | null: false                   |
+| prefecture_id | string     | null: false                   |
+| city          | string     | null: false                   |
+| house_number  | integer    | null: false                   |
+| building      | string     |                               |
+| phone_number  | string     | null: false                   |
 
 ### Association
 belongs_to :order

@@ -52,6 +52,7 @@ has_one    :address
 | Column             | Type       | Options                       |
 | ------------------ | ---------- | ----------------------------- |
 | order              | references | null: false, foreign_key: true|
+| postal_code        | integer    | null: false                   |
 | item_prefecture_id | integer    | null: false                   |
 | city               | string     | null: false                   |
 | house_number       | string     | null: false                   |

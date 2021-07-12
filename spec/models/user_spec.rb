@@ -32,6 +32,21 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include("Password can't be blank")
       end
+      it 'passwordが半角数字のみの場合は登録できない'do
+        @user.password = '/\A[0-9]+\z/'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
+      end
+      it 'passwordが半角英字のみの場合は登録できない'do
+        @user.password = '/\A[a-z]+\z/'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
+      end
+      it 'passwordが全角の場合は登録できない'do
+        @user.password = '/\A[a-zA-Z０-９]+\z/'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
+      end
       it '重複したemailが存在する場合登録できない' do
         @user.save
         another_user = FactoryBot.build(:user)
@@ -58,6 +73,26 @@ RSpec.describe User, type: :model do
         @user.last_name_kana = ''
         @user.valid?
         expect(@user.errors.full_messages).to include("Last name kana can't be blank")
+      end
+      it 'first_nameが漢字・平仮名・片仮名以外だと登録出来ない' do
+        @user.first_name = '/\A[a-zA-Z0-9]+\z/'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("First name is invalid")
+      end
+      it 'last_nameが漢字・平仮名・片仮名以外だと登録出来ない' do
+        @user.last_name = '/\A[a-zA-Z0-9]+\z/'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Last name is invalid")
+      end
+      it 'first_name_kanaが片仮名以外だと登録出来ない' do
+        @user.first_name_kana = '/\A[一-龥ぁ-ん]/'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("First name kana is invalid")
+      end
+      it 'last_name_kanaが片仮名以外だと登録出来ない' do
+        @user.last_name_kana = '/\A[一-龥ぁ-ん]/'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Last name kana is invalid")
       end
     end
   end

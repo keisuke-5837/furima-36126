@@ -8,7 +8,6 @@
     </h1>
   </div>
 
-  <%= form_for @user, url: user_registration_path do |f|%>
     <%= render 'shared/error_messages', model: f.object %>
 
       <div class="form-group">
@@ -100,6 +99,5 @@
       </div>
       <p class='register-info'>本人情報の登録について</p>
     </div>
-  <% end %>
 <% end %>
 <%= render "shared/second-footer"%>

@@ -33,19 +33,25 @@ RSpec.describe User, type: :model do
         expect(@user.errors.full_messages).to include("Password can't be blank")
       end
       it 'passwordが半角数字のみの場合は登録できない'do
-        @user.password = '/\A[0-9]+\z/'
+        @user.password = '111111'
         @user.valid?
         expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
       end
       it 'passwordが半角英字のみの場合は登録できない'do
-        @user.password = '/\A[a-z]+\z/'
+        @user.password = 'aaaaaa'
         @user.valid?
         expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
       end
       it 'passwordが全角の場合は登録できない'do
-        @user.password = '/\A[a-zA-Z０-９]+\z/'
+        @user.password = 'Aa１１１１１'
         @user.valid?
         expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
+      end
+      it 'passwordが5文字以下では登録できない' do
+        @user.password = '00000'
+        @user.password_confirmation = '00000'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Password is too short (minimum is 6 characters)')
       end
       it '重複したemailが存在する場合登録できない' do
         @user.save
@@ -53,6 +59,11 @@ RSpec.describe User, type: :model do
         another_user.email = @user.email
         another_user.valid?
         expect(another_user.errors.full_messages).to include('Email has already been taken')
+      end
+      it 'emailに@が含まれていない場合登録できない'do
+        @user.email = 'aaa.com'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Email is invalid")
       end
       it 'first_nameが空では登録できない' do
         @user.first_name = ''
@@ -75,22 +86,22 @@ RSpec.describe User, type: :model do
         expect(@user.errors.full_messages).to include("Last name kana can't be blank")
       end
       it 'first_nameが漢字・平仮名・片仮名以外だと登録出来ない' do
-        @user.first_name = '/\A[a-zA-Z0-9]+\z/'
+        @user.first_name = 'a1'
         @user.valid?
         expect(@user.errors.full_messages).to include("First name is invalid")
       end
       it 'last_nameが漢字・平仮名・片仮名以外だと登録出来ない' do
-        @user.last_name = '/\A[a-zA-Z0-9]+\z/'
+        @user.last_name = 'a1'
         @user.valid?
         expect(@user.errors.full_messages).to include("Last name is invalid")
       end
       it 'first_name_kanaが片仮名以外だと登録出来ない' do
-        @user.first_name_kana = '/\A[一-龥ぁ-ん]/'
+        @user.first_name_kana = 'Aa1あ阿'
         @user.valid?
         expect(@user.errors.full_messages).to include("First name kana is invalid")
       end
       it 'last_name_kanaが片仮名以外だと登録出来ない' do
-        @user.last_name_kana = '/\A[一-龥ぁ-ん]/'
+        @user.last_name_kana = 'Aa1あ阿'
         @user.valid?
         expect(@user.errors.full_messages).to include("Last name kana is invalid")
       end

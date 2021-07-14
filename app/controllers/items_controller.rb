@@ -1,7 +1,6 @@
 class ItemsController < ApplicationController
   before_action :set_item, only: [:edit, :show, :update]
-  before_action :authenticate_user!, only: [:new]
-  before_action :move_to_index, only: [:edit]
+  before_action :authenticate_user!, only: [:new,:edit]
   before_action :froce_redirect_unless_my_item, only: [:edit]
   def index
     @items = Item.order("created_at DESC")
@@ -43,12 +42,6 @@ class ItemsController < ApplicationController
 
   def set_item
     @item = Item.find(params[:id])
-  end
-
-  def move_to_index
-    unless user_signed_in?
-      redirect_to new_user_session_path
-    end
   end
 
   def froce_redirect_unless_my_item

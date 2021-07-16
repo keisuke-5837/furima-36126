@@ -2,8 +2,11 @@ require 'rails_helper'
 
 RSpec.describe OrderAddress, type: :model do
   before do
-    @order_address = FactoryBot.build(:order_address)
-  end
+    item = FactoryBot.create(:item)
+    user = FactoryBot.create(:user)
+    @order_address = FactoryBot.build(:order_address, item_id: item.id, user_id: user.id )
+    sleep(0.004)
+    end
   describe '商品購入' do
     context '商品購入できる時' do
       it 'postal_codeとitem_prefecture_id、cityとhouse_number、phone_numberが存在すれば登録できる' do

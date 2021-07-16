@@ -31,7 +31,7 @@ RSpec.describe OrderAddress, type: :model do
       it 'postal_codeが空では登録できない' do
         @order_address.postal_code = ''
         @order_address.valid?
-        expect(@order_address.errors.full_messages).to include("Postal code can't be blank", "Postal code is invalid")
+        expect(@order_address.errors.full_messages).to include("Postal code can't be blank")
       end
       it 'item_prefecture_idが空では登録できない' do
         @order_address.item_prefecture_id = ''

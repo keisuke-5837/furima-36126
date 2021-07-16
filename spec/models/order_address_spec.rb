@@ -67,10 +67,10 @@ RSpec.describe OrderAddress, type: :model do
       end
     end
   end
-  
+
   describe 'クレジットカード決済' do
     context '内容に問題ない場合' do
-      it "priceとtokenがあれば保存ができること" do
+      it "tokenがあれば保存ができること" do
         expect(@order_address).to be_valid
       end
     end

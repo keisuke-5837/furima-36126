@@ -5,7 +5,7 @@ RSpec.describe OrderAddress, type: :model do
     item = FactoryBot.create(:item)
     user = FactoryBot.create(:user)
     @order_address = FactoryBot.build(:order_address, item_id: item.id, user_id: user.id )
-    sleep(0.004)
+    sleep(0.01)
     end
   describe '商品購入' do
     context '商品購入できる時' do
@@ -35,6 +35,11 @@ RSpec.describe OrderAddress, type: :model do
       end
       it 'item_prefecture_idが空では登録できない' do
         @order_address.item_prefecture_id = ''
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Item prefecture can't be blank")
+      end
+      it 'item_prefecture_idが1だった場合登録できない'do
+        @order_address.item_prefecture_id = 1
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include("Item prefecture can't be blank")
       end
@@ -75,6 +80,11 @@ RSpec.describe OrderAddress, type: :model do
       end
       it 'phone_numberが全角では登録できない' do
         @order_address.phone_number = '０９０１２３４５６７８'
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Phone number is invalid")
+      end
+      it 'phone_numberが英数混合では登録できない' do
+        @order_address.phone_number = 'a9012345678'
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include("Phone number is invalid")
       end

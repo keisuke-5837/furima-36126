@@ -9,7 +9,7 @@ class Item < ApplicationRecord
   belongs_to :item_scheduled_delivery
   belongs_to :item_shipping_fee_status
 
-  with_options numericality: { other_than: 1 , message: "can't be blank"} do
+  with_options numericality: { other_than: 1, message:"の--以外を入力してください"} do
     validates :item_category_id
     validates :item_sales_status_id
     validates :item_shipping_fee_status_id
